@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local run artifacts (regenerable, never committed)
+verification_log.txt
+demo_console.txt
+verify_console.txt
+results.local.json
+
+# Private launch/ops notes — kept locally, not part of the repo
+MORNING_REPORT.md
+morning_report.py
+morning_stats.json
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Never let credentials anywhere near the tree
+.env
+.env.*
+*.token
+*.pem

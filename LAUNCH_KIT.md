@@ -5,9 +5,16 @@ Everything needed to make the project findable. Built 27 Oct 2026. Copy-paste re
 **Live links**
 
 - Repository: https://github.com/dednain/gestalt-net
-- Landing page (SEO): https://dednain.github.io/gestalt-net/
+- Landing page (EN, SEO): https://dednain.github.io/gestalt-net/
+- Landing page (RU, for Yandex): https://dednain.github.io/gestalt-net/ru/
+- **🚀 Launch console — prefilled forms for 10 communities:** https://dednain.github.io/gestalt-net/publish.html
+- Animated demo (8.6 s, 168 KB): https://dednain.github.io/gestalt-net/demo.gif
 - Release: https://github.com/dednain/gestalt-net/releases/tag/v1.0.0
 - Social card: https://dednain.github.io/gestalt-net/og-image.png
+- Published articles (indexed already):
+  - EN: https://telegra.ph/865-Less-Context-Memory-With-409-Lines-of-Pure-Python--Gestalt-Net-10-27
+  - RU: https://telegra.ph/Minus-865-pamyati-konteksta-na-chistom-Python--Geshtalt-Set-10-27
+  - Short RU card: https://rentry.co/gestalt-net-86
 
 ---
 
@@ -219,6 +226,15 @@ headline survivable.
 
 **Published by the agent (no accounts needed on those platforms):**
 
+- ✅ **Two full articles on Telegraph (EN + RU)** — live and indexed.
+- ✅ **Short RU card on rentry.co** — third independent backlink.
+- ✅ **Launch console** — `publish.html` with prefilled forms for 6 subreddits,
+  Hacker News, X, LinkedIn, Telegram, Mastodon, VK, WhatsApp, DEV.to, Habr and
+  Medium. One click opens a form with the title and body already filled in.
+- ✅ **Animated demo GIF** — visual asset (Reddit image/link posts outperform
+  plain text by a wide margin [1](https://upvote.net/blog/reddit-upvote-study)).
+- ✅ **RU landing page** with hreflang + JSON-LD, aimed at Yandex indexing.
+
 - ✅ Public GitHub repo, 20 topics, MIT license, release v1.0.0.
 - ✅ SEO landing page on GitHub Pages with OpenGraph, Twitter card, JSON-LD
   `SoftwareApplication` + `FAQPage`, sitemap.xml, robots.txt.
@@ -234,4 +250,7 @@ headline survivable.
 - ⬜ DEV.to article.
 - ⬜ X / LinkedIn / Telegram posts.
 
-Everything for those is written above and in `REDDIT_POST.txt` — copy-paste only.
+**But you do not have to copy-paste anything.** Open
+https://dednain.github.io/gestalt-net/publish.html — every button there opens a
+publishing form with the text already filled in. Check it, press Submit. Ten
+communities in about ten clicks.

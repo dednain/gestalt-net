@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Гештальт-Сеть — минус 86,5% памяти контекста на чистом Python</title>
+<meta name="description" content="Лёгкая альтернатива тяжёлым LLM-кэшам. Читает текст по три предложения, стирает закрытые сцены и оставляет 22-байтные спящие маячки. Минус 86,5% удержанного контекста, сжатие 7,4×, 100% точности ответа. Без GPU и внешних библиотек.">
+<meta name="keywords" content="архитектура памяти ИИ, длинный контекст, сжатие контекста, KV cache, чистый Python, машинное обучение без GPU, долгая память агента, альтернатива RAG, экономия памяти 86 процентов, спящие маячки, Гештальт-Сеть, легковесная архитектура ИИ">
+<meta name="author" content="dednain">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://dednain.github.io/gestalt-net/ru/">
+<link rel="alternate" hreflang="en" href="https://dednain.github.io/gestalt-net/">
+<link rel="alternate" hreflang="ru" href="https://dednain.github.io/gestalt-net/ru/">
+<link rel="alternate" hreflang="x-default" href="https://dednain.github.io/gestalt-net/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Минус 86,5% памяти контекста. Ноль зависимостей. Без GPU.">
+<meta property="og:description" content="Чистый Python, три коробки памяти, 22-байтные спящие маячки, сжатие 7,4× и 100% точности на 200 новых книгах.">
+<meta property="og:url" content="https://dednain.github.io/gestalt-net/ru/">
+<meta property="og:image" content="https://dednain.github.io/gestalt-net/og-image.png">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Минус 86,5% памяти контекста. Ноль зависимостей. Без GPU.">
+<meta name="twitter:description" content="Архитектура долгой памяти на чистом Python: сжатие 7,4×, 100% точности, 27/27 проверок.">
+<meta name="twitter:image" content="https://dednain.github.io/gestalt-net/og-image.png">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"SoftwareApplication",
+  "name":"Гештальт-Сеть (Gestalt-Net)",
+  "description":"Легковесная архитектура долгой памяти на чистом Python. Читает текст тройками ДО-СЕЙЧАС-ПОСЛЕ, хранит вечное досье, стирает закрытые сцены и оставляет спящие маячки для восстановления забытых предметов через сотни страниц.",
+  "applicationCategory":"DeveloperApplication","operatingSystem":"Любая (Python 3.8+)",
+  "programmingLanguage":"Python","url":"https://dednain.github.io/gestalt-net/ru/",
+  "codeRepository":"https://github.com/dednain/gestalt-net",
+  "license":"https://opensource.org/licenses/MIT","isAccessibleForFree":true,
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "author":{"@type":"Person","name":"dednain","url":"https://github.com/dednain"},
+  "softwareVersion":"1.0.0","datePublished":"2026-10-27",
+  "keywords":"архитектура памяти ИИ, длинный контекст, сжатие上下文, чистый Python, без GPU, долгая память агента"
+}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+ {"@type":"Question","name":"Гештальт-Сеть снижает потребление VRAM?","acceptedAnswer":{"@type":"Answer","text":"Не измерялось. Мы измеряли байты удержанного текста в UTF-8, а не память GPU и не байты KV-кэша. Чтобы говорить об экономии VRAM, нужна интеграция с реальным трансформером, которой мы не делали."}},
+ {"@type":"Question","name":"Это трансформер или языковая модель?","acceptedAnswer":{"@type":"Answer","text":"Нет. Это контроллер памяти, который можно надеть поверх модели. Решение по тройке принимает линейная логистическая регрессия на 198 весах."}},
+ {"@type":"Question","name":"На чём измеряли?","acceptedAnswer":{"@type":"Answer","text":"1000 синтетических шаблонных детективных рассказов для обучения (7000 решений), 250 для валидации и 200 новых книг для проверки. Точность 100% — на этих синтетических книгах, живая проза не тестировалась."}},
+ {"@type":"Question","name":"Какие зависимости?","acceptedAnswer":{"@type":"Answer","text":"Никаких. Только стандартная библиотека Python 3.8+. Ни PyTorch, ни NumPy, ни GPU, ни векторной базы, ни pip install."}}
+]}
+</script>
+<style>
+:root{--bg:#070b14;--card:#111a2c;--line:#1e2a42;--txt:#e8eef9;--dim:#93a4bf;--gold:#f2b84b;--cyan:#4fd6d2;--violet:#9a8cff;--green:#5fd39a;--red:#ff7a7a}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.68}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+header{padding:70px 0 60px;border-bottom:1px solid var(--line);background:radial-gradient(900px 420px at 15% -10%,rgba(154,140,255,.18),transparent 60%),radial-gradient(800px 380px at 85% 0%,rgba(79,214,210,.14),transparent 60%),var(--bg)}
+.eyebrow{display:inline-flex;gap:10px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(79,214,210,.3);border-radius:999px;padding:7px 15px;background:rgba(79,214,210,.06)}
+h1{font-size:clamp(36px,6vw,66px);line-height:1.08;letter-spacing:-.035em;margin:26px 0 18px;font-weight:800}
+h1 .hl{background:linear-gradient(90deg,var(--gold),#ffd98a 45%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:clamp(17px,2vw,21px);color:var(--dim);max-width:760px;margin:0 0 28px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:32px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:11px;font-weight:650;font-size:15px;border:1px solid var(--line);transition:.18s}
+.btn.pri{background:linear-gradient(120deg,var(--gold),#ffd17a);color:#16110a;border-color:transparent}
+.btn.pri:hover{transform:translateY(-2px);text-decoration:none;box-shadow:0 10px 30px rgba(242,184,75,.22)}
+.btn.sec{background:rgba(255,255,255,.03);color:var(--txt)}.btn.sec:hover{border-color:var(--cyan);text-decoration:none;transform:translateY(-2px)}
+.badges{display:flex;flex-wrap:wrap;gap:8px}.tag{font-size:12px;color:var(--dim);border:1px solid var(--line);border-radius:7px;padding:5px 10px}
+section{padding:60px 0;border-bottom:1px solid var(--line)}
+h2{font-size:clamp(25px,3.4vw,36px);letter-spacing:-.025em;margin:0 0 12px;line-height:1.18}
+.sub{color:var(--dim);max-width:780px;margin:0 0 30px;font-size:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:linear-gradient(160deg,var(--card),#0c1322);border:1px solid var(--line);border-radius:16px;padding:26px}
+.card .ico{font-size:26px;margin-bottom:10px}.card h3{margin:0 0 10px;font-size:19px}.card p{color:var(--dim);font-size:14.5px;margin:0}
+.card .n{display:block;margin-top:16px;font-size:12px;color:var(--cyan);font-family:ui-monospace,Menlo,monospace}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.metric{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 12px}
+.metric b{display:block;font-size:clamp(25px,3.4vw,38px);letter-spacing:-.04em;line-height:1.1}.metric span{font-size:12.5px;color:var(--dim);display:block;margin-top:8px}
+.gold{color:var(--gold)}.cyan{color:var(--cyan)}.green{color:var(--green)}.violet{color:var(--violet)}
+pre{background:#080d18;border:1px solid var(--line);border-radius:12px;padding:18px;overflow:auto;font-size:13.5px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:18px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
+th{color:var(--cyan);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+td:last-child{font-family:ui-monospace,Menlo,monospace;color:var(--gold)}
+.note{background:rgba(242,184,75,.07);border:1px solid rgba(242,184,75,.28);border-left:3px solid var(--gold);border-radius:10px;padding:20px 22px;color:#e9dcc0;font-size:14.5px}
+.note b{color:var(--gold)}
+ul.lim{padding-left:20px;color:var(--dim);font-size:15px}ul.lim li{margin:9px 0}
+footer{padding:44px 0 60px;color:var(--dim);font-size:14px}footer .links{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+@media(max-width:820px){.grid3,.metrics{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.grid3,.metrics{grid-template-columns:1fr}header{padding:50px 0 44px}section{padding:46px 0}}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <span class="eyebrow">◆ Чистый Python · Ноль зависимостей · Без GPU</span>
+  <h1>Долгая память для ИИ<br>без <span class="hl">лишней памяти.</span></h1>
+  <p class="lede">Гештальт-Сеть читает текст по три предложения, удаляет уже закрытые сцены и оставляет только короткий ярлык да 22-байтный «спящий маячок». Через пятьсот страниц этот маячок всё равно найдёт убийцу.</p>
+  <div class="btns">
+    <a class="btn pri" href="https://github.com/dednain/gestalt-net">★ Репозиторий на GitHub</a>
+    <a class="btn sec" href="#quickstart">▶ Запустить за 6 секунд</a>
+    <a class="btn sec" href="https://dednain.github.io/gestalt-net/publish.html">🚀 Опубликовать в 1 клик</a>
+    <a class="btn sec" href="https://dednain.github.io/gestalt-net/">🇬🇧 English version</a>
+  </div>
+  <div class="badges">
+    <span class="tag">Python 3.8+</span><span class="tag">MIT</span><span class="tag">0 внешних библиотек</span>
+    <span class="tag">27/27 проверок</span><span class="tag">ядро 409 строк</span><span class="tag">CPU, не GPU</span>
+  </div>
+</div></header>
+
+<section><div class="wrap">
+  <h2>Цифры из реального прогона</h2>
+  <p class="sub">Каждое число записано в <code>results.json</code> и заново выводится из байтов и confusion matrix скриптом <code>verify.py</code>. Это не цифры с картинки.</p>
+  <div class="metrics">
+    <div class="metric"><b class="gold">−86,5%</b><span>удержанного контекста<br>478 193 → 64 716 байт</span></div>
+    <div class="metric"><b class="cyan">7,4×</b><span>сжатие контекста<br>на 200 новых книгах</span></div>
+    <div class="metric"><b class="green">100%</b><span>точность ответа<br>на 200 новых книгах</span></div>
+    <div class="metric"><b class="violet">2,7×</b><span>вес ПОСЛЕ против ДО<br>25,8 против 9,5</span></div>
+  </div>
+  <table>
+    <thead><tr><th>Измерение</th><th>Значение</th></tr></thead>
+    <tbody>
+      <tr><td>F1 по классу «улика», до → после обучения</td><td>19,9% → 100%</td></tr>
+      <tr><td>Обучающая выборка / решений</td><td>1 000 рассказов / 7 000</td></tr>
+      <tr><td>Весов / эпох</td><td>198 / 14</td></tr>
+      <tr><td>Демо про Дворецкого</td><td>1 956 → 295 байт (−84,9%)</td></tr>
+      <tr><td>Точность без маячков / без досье</td><td>60% / 40%</td></tr>
+      <tr><td>Точность досье: обученная / необученная</td><td>100% / 7,5%</td></tr>
+      <tr><td>Независимая проверка</td><td>27/27, код выхода 0</td></tr>
+    </tbody>
+  </table>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Одно правило: ждём третье предложение</h2>
+  <p class="sub">Читатель берёт непересекающиеся тройки τ<sub>k</sub> = (s<sub>3k−2</sub>, s<sub>3k−1</sub>, s<sub>3k</sub>). Ни одно решение о предмете из СЕЙЧАС не принимается, пока не прочитано ПОСЛЕ. В этом и вся архитектура.</p>
+  <div style="margin:24px 0 8px"><img src="https://dednain.github.io/gestalt-net/demo.gif" alt="Анимация: три предложения, три коробки, маячок срабатывает через 500 страниц" style="width:100%;max-width:900px;border:1px solid var(--line);border-radius:14px;display:block"></div>
+  <p style="color:var(--dim);font-size:13px;margin:0 0 22px">Анимация на 8,6 секунды, 168 КБ, без внешних ресурсов.</p>
+  <div class="note"><b>Почему это важно.</b> Сцена, которая закрылась, — стирается. А вот «он испуганно спрятал рукав со шрамом и убежал» — эмоция не завершена, значит шрам идёт в досье. После обучения суммарный вес признаков из ПОСЛЕ равен 25,8 против 9,5 у ДО: сеть сама научилась ждать, её никто не учил, какое предложение главное.</div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Три коробки памяти</h2>
+  <p class="sub">Заменяем удержанную прозу ярлыками и маячками. Никакой квантизации, никакого прунинга, никаких attention-ядер — только ретроспективная логика.</p>
+  <div class="grid3">
+    <div class="card"><div class="ico">📦</div><h3>Вечное досье</h3><p>Короткие ярлыки на персонажах: <em>[Дворецкий] → шрам-полумесяц (стр. 12)</em>. Навсегда остаются части тела, странные реакции и подозрительные контрасты — но не длинные предложения.</p><span class="n">O(персонажи) · точность 100%</span></div>
+    <div class="card"><div class="ico">🗑️</div><h3>Мусорка</h3><p>Закрытые бытовые действия стираются из рабочей памяти полностью. По определению пуста, а значит ничего не стоит. Сюда уходит около 90% объёма сцен.</p><span class="n">0 байт на хранение</span></div>
+    <div class="card"><div class="ico">📡</div><h3>Спящие маячки</h3><p>Записываются <em>до</em> удаления: <em>платок = Дворецкий (стр. 12)</em>. Через 500 страниц на месте убийства находят белый платок — словарный поиск O(1) срабатывает и возвращает владельца.</p><span class="n">~22 байта · поиск O(1)</span></div>
+  </div>
+  <div style="margin-top:24px"><pre><code>B_full = Σ байт(предложение)                       = 478 193 байта
+B_ges  = Σ байт(ярлыки) + Σ байт(маячки)          =  64 716 байт
+экономия = 1 − B_ges / B_full                     =     86,5%
+сжатие   = B_full / B_ges                         =      7,4×</code></pre></div>
+</div></section>
+
+<section id="quickstart"><div class="wrap">
+  <h2>Работает даже на слабом железе</h2>
+  <p class="sub">Ни <code>pip install</code>, ни виртуального окружения, ни видеокарты, ни API-ключей. Только Python 3.8+.</p>
+  <pre><code>git clone https://github.com/dednain/gestalt-net.git
+cd gestalt-net
+
+python3 gestalt/verify.py        # 27/27 независимых проверок, ~3 с
+python3 gestalt/experiment.py    # полный бенчмарк, ~6 с, перезапишет results.json</code></pre>
+  <p style="margin-top:18px"><a href="https://github.com/dednain/gestalt-net#readme">Читать полный README →</a></p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Честные ограничения</h2>
+  <div class="note" style="margin-bottom:20px"><b>Мы НЕ измеряли VRAM.</b> 86,5% — это байты удержанного <em>текста</em> в UTF-8, а не память GPU, не байты KV-кэша и не измеренное ускорение трансформера. Чтобы перевести это в экономию видеопамяти, нужна интеграция с настоящей моделью, которой мы не делали.</div>
+  <ul class="lim">
+    <li><b>Это не трансформер и не LLM.</b> Судья тройки — линейная логистическая регрессия по основам слов на 198 весах. В продакшене судьёй была бы языковая модель, а три коробки — памятью вокруг неё.</li>
+    <li><b>Корпус синтетический</b> — шаблонные детективные рассказы на русском. 100% точности — на этих книгах, а не на живой литературе. Для настоящей прозы нужны NER, кореференция и понимание иронии.</li>
+    <li><b>Разметка — плотная суррогатная</b> («нужен ли этот предмет в досье»), выведенная из того, понадобился ли он для финального ответа. Это не полноценное обучение с подкреплением от одной награды в конце книги.</li>
+    <li><b>Основы слов, имена и слова-подсказки заданы вручную.</b> Решение обучается, восприятие — нет.</li>
+    <li><b>Неожиданная абляция:</b> необученная сеть тоже отвечает верно в 100% случаев, потому что маячки страхуют от плохих решений, но точность её досье всего 7,5%. Обучение даёт сжатие и чистое досье, а не саму правильность.</li>
+  </ul>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="links">
+    <a href="https://github.com/dednain/gestalt-net">Репозиторий</a>
+    <a href="https://dednain.github.io/gestalt-net/">English version</a>
+    <a href="https://dednain.github.io/gestalt-net/publish.html">🚀 Консоль публикации</a>
+    <a href="https://github.com/dednain/gestalt-net/discussions/1">Обсуждение</a>
+    <a href="https://telegra.ph/Minus-865-pamyati-konteksta-na-chistom-Python--Geshtalt-Set-10-27">Статья на Telegraph</a>
+  </div>
+  <div>Гештальт-Сеть · лицензия MIT · 1 225 строк на стандартной библиотеке Python и ноль внешних пакетов.</div>
+  <div style="margin-top:8px;opacity:.7">Ключевые слова: архитектура памяти ИИ · длинный контекст LLM · уменьшение KV cache · сжатие контекста · чистый Python · память агента · ИИ без GPU · экономия памяти 86%</div>
+</div></footer>
+
+</body>
+</html>

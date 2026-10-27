@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Publish Gestalt-Net in one click — launch console</title>
+<meta name="description" content="One-click prefilled publishing forms for Reddit, Hacker News, X, LinkedIn, DEV.to, Habr, Telegram and Mastodon.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://dednain.github.io/gestalt-net/publish.html">
+<meta property="og:title" content="Gestalt-Net launch console — publish in one click">
+<meta property="og:description" content="Prefilled posts for 10 communities. Open, check, submit.">
+<meta property="og:image" content="https://dednain.github.io/gestalt-net/og-image.png">
+<style>
+:root{--bg:#070b14;--card:#111a2c;--line:#1e2a42;--txt:#e8eef9;--dim:#93a4bf;--gold:#f2b84b;--cyan:#4fd6d2;--green:#5fd39a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.6}
+.wrap{max-width:1000px;margin:0 auto;padding:0 22px}
+header{padding:44px 0 26px;border-bottom:1px solid var(--line)}
+h1{font-size:clamp(28px,4vw,44px);margin:0 0 10px;letter-spacing:-.03em}
+.sub{color:var(--dim);font-size:17px;max-width:760px;margin:0 0 14px}
+.warn{background:rgba(242,184,75,.08);border:1px solid rgba(242,184,75,.3);border-left:3px solid var(--gold);border-radius:10px;padding:16px 18px;color:#e9dcc0;font-size:14.5px;margin:22px 0}
+.btnrow{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 8px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:10px;font-weight:650;font-size:14.5px;border:1px solid var(--line);background:var(--card);color:var(--txt);cursor:pointer;text-decoration:none}
+.btn:hover{border-color:var(--cyan);text-decoration:none}
+.btn.pri{background:linear-gradient(120deg,var(--gold),#ffd17a);color:#16110a;border-color:transparent}
+.btn.on{border-color:var(--green);color:var(--green)}
+section{padding:30px 0;border-bottom:1px solid var(--line)}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.02em}
+.meta{color:var(--dim);font-size:13.5px;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:14px}
+a.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:17px;text-decoration:none;color:var(--txt);transition:.16s}
+a.card:hover{border-color:var(--cyan);transform:translateY(-2px);text-decoration:none}
+a.card b{display:block;font-size:15.5px;margin-bottom:5px}
+a.card span{font-size:12.5px;color:var(--dim)}
+a.card .go{display:inline-block;margin-top:10px;font-size:12px;color:var(--cyan);font-family:ui-monospace,Menlo,monospace}
+textarea{width:100%;min-height:150px;background:#080d18;border:1px solid var(--line);border-radius:10px;color:var(--txt);padding:14px;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical}
+.copy{margin-top:8px}
+footer{padding:34px 0 60px;color:var(--dim);font-size:13.5px}
+footer a{color:var(--cyan)}
+@media(max-width:600px){header{padding:30px 0 20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>🚀 Launch console</h1>
+  <p class="sub">Every button below opens a publishing form with the title and text <b>already filled in</b>. Check it, add the link, press Submit. Wednesday 28 October, 13:00–16:00 Moscow time is the best window.</p>
+  <div class="warn"><b>Before you post:</b> say “retained context bytes”, <b>never “VRAM”</b>. We measured UTF-8 text bytes, not GPU memory. An unqualified VRAM claim gets the post removed on r/MachineLearning. Also disclose that you are the author.</div>
+  <div class="btnrow">
+    <a class="btn pri" href="https://github.com/dednain/gestalt-net">★ Repository</a>
+    <a class="btn" href="https://dednain.github.io/gestalt-net/">Landing page</a>
+    <a class="btn" href="https://dednain.github.io/gestalt-net/demo.gif">Animated demo</a>
+    <a class="btn" href="https://github.com/dednain/gestalt-net/blob/main/LAUNCH_KIT.md">Full launch kit</a>
+  </div>
+</header>
+
+<section>
+  <h2>1. Priority — biggest technical audience</h2>
+  <p class="meta">Start here. These three give the most qualified readers.</p>
+  <div class="grid" id="priority"></div>
+</section>
+
+<section>
+  <h2>2. Social — quick reach</h2>
+  <p class="meta">These open prefilled share dialogs. Good for the first 90 minutes of velocity.</p>
+  <div class="grid" id="social"></div>
+</section>
+
+<section>
+  <h2>3. Long-form articles</h2>
+  <p class="meta">DEV.to and Habr need an account. The text is prepared below — copy and paste.</p>
+  <div class="grid" id="longform"></div>
+</section>
+
+<section>
+  <h2>4. Ready-to-paste texts</h2>
+  <p class="meta">Click a button to load the text, then “Copy”. Nothing is uploaded anywhere by this page.</p>
+  <div class="btnrow" id="textbtns"></div>
+  <textarea id="txt" spellcheck="false"></textarea>
+  <div class="copy"><button class="btn" id="copy">📋 Copy to clipboard</button> <span id="status" style="color:var(--dim);font-size:13px"></span></div>
+</section>
+
+<footer>
+  <div>Gestalt-Net · MIT · <a href="https://github.com/dednain/gestalt-net">GitHub</a> · <a href="https://github.com/dednain/gestalt-net/discussions/1">Discussion</a></div>
+  <div style="margin-top:8px">Links open external sites in a new tab. This page contains no analytics and no tracking.</div>
+</footer>
+</div>
+
+<script>
+const REPO="https://github.com/dednain/gestalt-net";
+const SITE="https://dednain.github.io/gestalt-net/";
+
+const texts={
+reddit:{
+ title:"[P] We cut retained long-context memory 86.5% with a 409-line pure-Python core — 0 dependencies, 0 GPUs, 100% answer accuracy on our benchmark",
+ body:`TL;DR: We built a memory controller in pure Python (zero external libraries, no GPU) that keeps only permanent character traits plus ~22-byte "sleep triggers" for discarded objects. On 200 unseen synthetic books it deleted 86.5% of retained context bytes while keeping answer accuracy at 100%. Reproducible in ~6 seconds on a laptop CPU.
+
+WHY: Most long-context approaches are hoarders — every token in a KV cache, every chunk in a RAG index. But in a story, most sentences are noise.
+
+THE RULE: read text in non-overlapping triads (BEFORE, CURRENT, AFTER). NO decision about an object in CURRENT is made until AFTER has been read. "He put the handkerchief away and trimmed the hedge" is closed. "He frightenedly hid the scar and ran" is unresolved.
+
+THREE BOXES:
+1. Dossier — short tags: [Butler] -> crescent scar (p. 12)
+2. Trash — closed scenes erased completely, costs 0
+3. Sleep-Triggers — "handkerchief = Butler (p. 12)" written BEFORE deletion. An O(1) lookup 500 pages later restores the owner.
+
+WHAT IS LEARNED: a linear logistic scorer over 4-char stems prefixed by triad position (L:/M:/A:), 198 weights, SGD, 14 epochs, 1,000 templated stories = 7,000 decisions. After training, AFTER features have weight mass 25.8 vs 9.5 for BEFORE — 2.7x. It learned to wait without being told.
+
+NUMBERS (results.json; verify.py re-derives them):
+  F1 evidence class 19.9% -> 100%
+  Answer accuracy, 200 new books 100%
+  without triggers 60% / without Dossier 40% / delete everything 0%
+  Memory 478,193 -> 64,716 bytes = -86.5%, 7.4x
+  Butler demo 1,956 -> 295 bytes = -84.9%, 0 mistakes
+  27/27 independent checks pass
+
+SURPRISING ABLATION: an UNTRAINED network also answers 100% correctly — triggers insure against almost any bad decision. Its Dossier precision is 7.5% vs 100%. Training buys compression and a clean Dossier, not raw correctness.
+
+LIMITATIONS — PLEASE READ:
+* NOT a transformer and NOT an LLM. It is a bookkeeping layer; the judge is a linear bag-of-stems model.
+* Synthetic templated detective stories. 100% is on OUR books.
+* WE DID NOT MEASURE VRAM. We measured UTF-8 bytes of retained text — not KV-cache memory, not GPU memory. Claiming "86% less VRAM" would be wrong.
+* The label is a dense surrogate, not full RL from one end-of-book reward. Stems and cue words are hand-listed; the decision is learned, the perception is not.
+
+Repo (MIT, no pip install, no GPU): `+REPO+`
+Landing page with the math: `+SITE+`
+
+Questions for the community: (1) is the sleep trigger just an inverted index with extra steps, and does that matter? (2) what is the right baseline for retained bytes — a sliding-window prompt buffer or a KV-cache eviction policy?`
+},
+hn:{
+ title:"Show HN: Gestalt-Net – 86.5% less retained context with 409 lines of pure Python",
+ body:`Hi HN,
+
+I built a memory controller that tries to solve long context by not storing most of the text. It reads in non-overlapping triads (BEFORE, CURRENT, AFTER) and refuses to decide an object's fate until the third sentence arrives. A scene that closes is erased; an unresolved one is kept.
+
+Three boxes:
+  1. Dossier — short tags: [Butler] -> crescent scar (p. 12)
+  2. Trash — closed scenes erased entirely, costs 0
+  3. Sleep-Triggers — "handkerchief = Butler (p. 12)" written before deletion.
+     An O(1) dict lookup 500 pages later restores the owner.
+
+A 198-weight linear logistic scorer learns which is which from 1,000 templated stories (7,000 decisions) in about a second on CPU. On 200 unseen books: 478,193 -> 64,716 bytes = 86.5% less retained context (7.4x), 100% answer accuracy. Ablations: 60% without triggers, 40% without Dossier, 0% if you delete everything. 27 independent checks pass.
+
+Important caveats: this is NOT a transformer, and I did NOT measure VRAM — only UTF-8 bytes of retained text. The corpus is synthetic templated detective stories, and 100% is on those books. The perception layer (stems, cue words) is hand-written; only the decision is learned.
+
+Repo (MIT, no pip install, Python 3.8+): `+REPO+`
+Landing page with the math: `+SITE+`
+
+I'd love feedback on whether sleep-triggers are just an inverted index with extra steps, and what the right baseline for "retained bytes" should be.`
+},
+short:"We built a pure-Python long-term memory controller with ZERO dependencies. It reads text three sentences at a time, waits for the resolution, keeps only permanent traits, and leaves ~22-byte \"sleep triggers\" for everything it deletes. On 200 unseen books: -86.5% retained context (7.4x compression), 100% answer accuracy, ~1 s training on CPU. No GPU, no pip install. MIT: `+REPO+`\n\nCaveat we keep repeating: that's retained TEXT bytes, not measured VRAM. Not a transformer. Synthetic benchmark.",
+ru:`Заголовок: -86,5% памяти контекста на чистом Python: три коробки вместо тяжёлого LLM-кэша
+
+Мы написали алгоритм на чистом Python без единой внешней библиотеки, который утирает нос тяжёлым трансформерам в задачах долгой памяти. Точнее: он не заменяет трансформер, а берёт на себя ведение долгой памяти вокруг него.
+
+ПРАВИЛО: текст читается тройками (ДО, СЕЙЧАС, ПОСЛЕ). Судьба предмета не решается, пока не прочитано третье предложение. «Убрал платок в карман и начал стричь кусты» — закрыто, стираем. «Испуганно спрятал рукав со шрамом и убежал» — не завершено, оставляем.
+
+ТРИ КОРОБКИ:
+📦 Вечное досье — короткие ярлыки: [Дворецкий] → шрам-полумесяц (стр. 12).
+🗑️ Мусорка — закрытые бытовые сцены стираются полностью, 0 байт.
+📡 Спящие маячки — «платок = Дворецкий (стр. 12)» записывается ДО удаления. Через 500 страниц поиск O(1) возвращает владельца.
+
+ЗАМЕР на 200 новых книгах: 478 193 → 64 716 байт = −86,5%, сжатие 7,4×. Точность ответа 100% (без маячков 60%, без досье 40%, стереть всё 0%). F1 19,9% → 100% за 14 эпох, 198 весов, ~1 с на CPU. Вес ПОСЛЕ/ДО = 2,7×: сеть сама научилась ждать. 27/27 проверок.
+
+ЧЕСТНО: это НЕ трансформер. Мы измеряли байты удержанного ТЕКСТА, а не VRAM и не KV-кэш. Корпус синтетический. Необученная сеть тоже даёт 100% ответов за счёт маячков, но точность её досье всего 7,5% — обучение даёт сжатие и чистое досье.
+
+Запуск: git clone `+REPO+` && cd gestalt-net && python3 gestalt/verify.py
+Ни pip install, ни GPU, ни внешних библиотек. Python 3.8+, MIT.
+Сайт: `+SITE+`
+
+Хабы: Программирование, Алгоритмы, Python, Машинное обучение, Искусственный интеллект.`
+};
+
+function enc(s){return encodeURIComponent(s)}
+function mk(o){return Object.keys(o).map(k=>enc(k)+"="+enc(o[k])).join("&")}
+
+const links=[
+ {group:"priority",name:"r/LocalLLaMA",note:"~733–890K · highest median upvotes",url:"https://www.reddit.com/r/LocalLLaMA/submit?"+mk({title:texts.reddit.title.replace(/^\[P\] /,""),text:texts.reddit.body,selftext:"true"})},
+ {group:"priority",name:"r/MachineLearning",note:"~3.07M · [P] prefix required",url:"https://www.reddit.com/r/MachineLearning/submit?"+mk({title:texts.reddit.title,text:texts.reddit.body,selftext:"true"})},
+ {group:"priority",name:"Hacker News — Show HN",note:"highest-leverage technical audience",url:"https://news.ycombinator.com/submitlink?"+mk({u:REPO,t:texts.hn.title})},
+ {group:"priority",name:"r/artificial",note:"~1.3M · crosspost after 48h",url:"https://www.reddit.com/r/artificial/submit?"+mk({title:texts.reddit.title.replace(/^\[P\] /,""),text:texts.reddit.body,selftext:"true"})},
+ {group:"priority",name:"r/learnmachinelearning",note:"~645K · beginner-friendly framing",url:"https://www.reddit.com/r/learnmachinelearning/submit?"+mk({title:"I built a 6-second reproducible experiment on AI long-term memory — 86.5% less context, pure Python",text:texts.reddit.body,selftext:"true"})},
+ {group:"priority",name:"r/AI_Agents",note:"~371K · agent memory angle",url:"https://www.reddit.com/r/AI_Agents/submit?"+mk({title:"A dependency-free long-term memory architecture for agents: 86.5% less retained context",text:texts.reddit.body,selftext:"true"})},
+ {group:"social",name:"X / Twitter",note:"prefilled tweet",url:"https://twitter.com/intent/tweet?"+mk({text:texts.short,url:REPO})},
+ {group:"social",name:"LinkedIn",note:"share dialog",url:"https://www.linkedin.com/sharing/share-offsite/?url="+enc(REPO)},
+ {group:"social",name:"Telegram",note:"share dialog",url:"https://t.me/share/url?"+mk({url:REPO,text:texts.short})},
+ {group:"social",name:"Mastodon",note:"prefilled toot",url:"https://mastodon.social/share?text="+enc(texts.short+"\n"+REPO)},
+ {group:"social",name:"VK",note:"Russian-speaking audience",url:"https://vk.com/share.php?"+mk({url:REPO,title:"Gestalt-Net: -86.5% памяти контекста",comment:texts.short})},
+ {group:"social",name:"WhatsApp",note:"share dialog",url:"https://api.whatsapp.com/send?text="+enc(texts.short+" "+REPO)},
+ {group:"longform",name:"DEV.to — new article",note:"tags: ai, python, opensource, tutorial",url:"https://dev.to/new?prefill="+enc("---\ntitle: 86.5% Less Context Memory With Zero Dependencies — A Pure-Python Alternative to Heavy LLM Caches\npublished: false\ntags: ai, python, opensource, tutorial\n---\n\n"+texts.reddit.body)},
+ {group:"longform",name:"Habr — new article",note:"хабы: Программирование, Алгоритмы, Python, ML, ИИ",url:"https://habr.com/ru/articles/new/"},
+ {group:"longform",name:"Medium — new story",note:"copy the English Russian text below",url:"https://medium.com/new-story"},
+ {group:"longform",name:"Telegra.ph — EN article",note:"already published, opens for reference",url:"https://telegra.ph/865-Less-Context-Memory-With-409-Lines-of-Pure-Python--Gestalt-Net-10-27"},
+ {group:"longform",name:"Telegra.ph — RU article",note:"already published, opens for reference",url:"https://telegra.ph/Minus-865-pamyati-konteksta-na-chistom-Python--Geshtalt-Set-10-27"},
+ {group:"longform",name:"rentry.co — RU card",note:"already published, short version",url:"https://rentry.co/gestalt-net-86"}
+];
+
+for(const g of ["priority","social","longform"]){
+ const el=document.getElementById(g);
+ for(const l of links.filter(x=>x.group===g)){
+  const a=document.createElement("a");a.className="card";a.href=l.url;a.target="_blank";a.rel="noopener noreferrer";
+  a.innerHTML="<b>"+l.name+"</b><span>"+l.note+"</span><span class='go'>OPEN PREFILLED FORM →</span>";
+  el.appendChild(a);
+ }
+}
+
+const tb=document.getElementById("textbtns");
+const items=[["reddit","Reddit full post"],["hn","Show HN text"],["short","Short social post"],["ru","Хабр (RU) article"]];
+items.forEach(([k,label],i)=>{
+ const b=document.createElement("button");b.className="btn"+(i===0?" on":"");b.textContent=label;
+ b.onclick=()=>{document.getElementById("txt").value=texts[k];
+  document.querySelectorAll("#textbtns .btn").forEach(x=>x.classList.remove("on"));b.classList.add("on");
+  document.getElementById("status").textContent="";};
+ tb.appendChild(b);
+});
+document.getElementById("txt").value=texts.reddit;
+document.getElementById("copy").onclick=async()=>{
+ const t=document.getElementById("txt");t.select();
+ try{await navigator.clipboard.writeText(t.value);document.getElementById("status").textContent="✅ Copied";}
+ catch(e){document.execCommand("copy");document.getElementById("status").textContent="✅ Copied";}
+};
+</script>
+</body>
+</html>

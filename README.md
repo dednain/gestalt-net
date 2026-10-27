@@ -16,6 +16,12 @@ Long-context systems are hoarders. A transformer keeps every token in its KV cac
 Gestalt-Net starts from a different observation: **most sentences are domestic noise**. A butler takes out a handkerchief, wipes his forehead, puts it away — and nothing ever comes of it. But a scar is part of a body, and a frightened reaction is an unfinished story. A reader should be allowed to forget the first and remember the second, while leaving itself a tiny note about what it threw away.
 
 > 🌐 **Live site with the full math and diagrams:** https://dednain.github.io/gestalt-net/
+> 🚀 **One-click launch console (prefilled posts for 10 communities):** https://dednain.github.io/gestalt-net/publish.html
+> 🇷🇺 **Русская версия:** https://dednain.github.io/gestalt-net/ru/
+
+![Gestalt-Net animated demo](https://dednain.github.io/gestalt-net/demo.gif)
+
+*8.6-second walkthrough of the three-sentence rule, the three boxes, and a trigger firing on page 480.*
 
 This repository is a deliberately small, fully reproducible implementation of that idea. It is **not** a language model. It is a memory controller — the bookkeeping layer you would put *around* a model.
 
@@ -161,7 +167,8 @@ REDDIT_POST.txt      Reddit launch kit: titles, flairs, tags, copy-paste body
 LAUNCH_KIT.md        full promotion plan: ranked titles, tags, hubs, schedule
 LICENSE              MIT
 results.json         recorded benchmark (all numbers above)
-docs/                public landing page (GitHub Pages), OG image, sitemap
+docs/                landing page (EN+RU), launch console, animated demo,
+                      OG image, sitemap, robots.txt
 gestalt/
   __init__.py        package marker, re-exports the public API
   gestalt.py         the architecture: triad reader, three boxes, scorers
@@ -170,6 +177,16 @@ gestalt/
 ```
 
 That's it. Four Python files, one JSON, docs, and a static site — no external packages.
+
+### Already published (indexed, no accounts needed)
+
+- [EN article on Telegraph](https://telegra.ph/865-Less-Context-Memory-With-409-Lines-of-Pure-Python--Gestalt-Net-10-27)
+- [RU article on Telegraph](https://telegra.ph/Minus-865-pamyati-konteksta-na-chistom-Python--Geshtalt-Set-10-27)
+- [RU quick card on rentry.co](https://rentry.co/gestalt-net-86)
+- [Show HN draft as a GitHub Gist](https://gist.github.com/dednain/84904e5c81b24de90bec2fc084b6c78e)
+- [Show and tell discussion #1](https://github.com/dednain/gestalt-net/discussions/1)
+
+See [LAUNCH_KIT.md](LAUNCH_KIT.md) for the full promotion plan and copy-paste posts.
 
 ---
 

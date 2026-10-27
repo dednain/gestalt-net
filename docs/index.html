@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestalt-Net — 86.5% Less Context Memory for Long-Context AI (Pure Python)</title>
+<meta name="description" content="A dependency-free retrospective memory architecture. Reads text three sentences at a time, keeps a Dossier, erases closed scenes, and leaves 22-byte sleep-triggers. Measured: 86.5% less retained context, 7.4x compression, 100% answer accuracy. Zero dependencies, no GPU.">
+<meta name="keywords" content="AI memory architecture, long context LLM, KV cache reduction, context compression, pure Python machine learning, lightweight LLM alternative, RAG alternative, sleep triggers, agent memory, memory-efficient AI, 86% memory savings, no GPU AI, zero dependency Python, long-context, context management, efficient inference">
+<meta name="author" content="dednain">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://dednain.github.io/gestalt-net/">
+<link rel="alternate" type="application/rss+xml" title="Gestalt-Net" href="https://github.com/dednain/gestalt-net/releases.atom">
+
+<!-- Open Graph / Facebook / LinkedIn / Telegram -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Gestalt-Net">
+<meta property="og:title" content="86.5% Less Context Memory. Zero Dependencies. No GPU.">
+<meta property="og:description" content="A pure-Python memory architecture that reads three sentences at a time, deletes closed scenes and leaves 22-byte sleep-triggers. 7.4x compression, 100% answer accuracy on 200 unseen books.">
+<meta property="og:url" content="https://dednain.github.io/gestalt-net/">
+<meta property="og:image" content="https://dednain.github.io/gestalt-net/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Three glowing memory boxes: one preserved, one dissolving, one emitting a recall pulse">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="86.5% Less Context Memory. Zero Dependencies. No GPU.">
+<meta name="twitter:description" content="Pure-Python retrospective memory for long contexts: 7.4x compression, 100% answer accuracy, 27/27 independent checks.">
+<meta name="twitter:image" content="https://dednain.github.io/gestalt-net/og-image.png">
+
+<!-- Structured data for Google / Yandex rich results -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Gestalt-Net",
+  "alternateName": "Gestalt Net retrospective memory architecture",
+  "description": "Dependency-free retrospective memory controller for long contexts. Reads text in BEFORE-CURRENT-AFTER triads, keeps an eternal Dossier, erases closed scenes, and writes compact sleep-triggers that restore forgotten objects hundreds of pages later.",
+  "applicationCategory": "DeveloperApplication",
+  "applicationSubCategory": "Machine learning / long-context memory",
+  "operatingSystem": "Any (Python 3.8+)",
+  "programmingLanguage": "Python",
+  "runtimePlatform": "CPython 3.8+",
+  "url": "https://dednain.github.io/gestalt-net/",
+  "downloadUrl": "https://github.com/dednain/gestalt-net/archive/refs/heads/main.zip",
+  "codeRepository": "https://github.com/dednain/gestalt-net",
+  "license": "https://opensource.org/licenses/MIT",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Person", "name": "dednain", "url": "https://github.com/dednain" },
+  "datePublished": "2026-10-27",
+  "softwareVersion": "1.0.0",
+  "keywords": "AI memory architecture, long context, KV cache, context compression, pure Python, no GPU, agent memory, RAG alternative, 86% memory savings",
+  "featureList": [
+    "Three-sentence BEFORE-CURRENT-AFTER decision window",
+    "Eternal Dossier of short entity tags",
+    "Full erasure of closed domestic scenes",
+    "22-byte Sleep-Triggers for long-range recall",
+    "27 independent verification checks",
+    "Zero external dependencies"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Does Gestalt-Net reduce GPU VRAM usage?","acceptedAnswer":{"@type":"Answer","text":"Not measured. Gestalt-Net measures UTF-8 bytes of retained text context, not GPU VRAM or KV-cache bytes. Translating retained-context savings into VRAM savings requires a transformer integration that has not been done."}},
+    {"@type":"Question","name":"Is Gestalt-Net a transformer or language model?","acceptedAnswer":{"@type":"Answer","text":"No. It is a memory controller intended to wrap around a model. The triad judge is a linear bag-of-stems logistic scorer with 198 learned weights."}},
+    {"@type":"Question","name":"What was the benchmark?","acceptedAnswer":{"@type":"Answer","text":"1,000 synthetic templated detective stories for training (7,000 decisions), 250 for validation, and 200 unseen books for the answer-accuracy test. Accuracy was 100% on those synthetic books; real prose was not tested."}},
+    {"@type":"Question","name":"What are the dependencies?","acceptedAnswer":{"@type":"Answer","text":"None. Only the Python 3.8+ standard library. No PyTorch, no NumPy, no GPU, no vector database, no pip install."}}
+  ]
+}
+</script>
+
+<style>
+:root{--bg:#070b14;--bg2:#0c1322;--card:#111a2c;--line:#1e2a42;--txt:#e8eef9;--dim:#93a4bf;--gold:#f2b84b;--cyan:#4fd6d2;--violet:#9a8cff;--red:#ff7a7a;--green:#5fd39a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+header{position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:radial-gradient(900px 420px at 15% -10%,rgba(154,140,255,.18),transparent 60%),radial-gradient(800px 380px at 85% 0%,rgba(79,214,210,.14),transparent 60%),var(--bg)}
+.pad{padding:78px 0 66px}
+.eyebrow{display:inline-flex;gap:10px;align-items:center;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(79,214,210,.3);border-radius:999px;padding:7px 15px;background:rgba(79,214,210,.06)}
+h1{font-size:clamp(38px,6.4vw,70px);line-height:1.06;letter-spacing:-.035em;margin:26px 0 18px;font-weight:800}
+h1 .hl{background:linear-gradient(90deg,var(--gold),#ffd98a 45%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:clamp(17px,2vw,21px);color:var(--dim);max-width:720px;margin:0 0 30px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:36px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:11px;font-weight:650;font-size:15px;border:1px solid var(--line);transition:.18s}
+.btn.pri{background:linear-gradient(120deg,var(--gold),#ffd17a);color:#16110a;border-color:transparent}
+.btn.pri:hover{transform:translateY(-2px);text-decoration:none;box-shadow:0 10px 30px rgba(242,184,75,.22)}
+.btn.sec{background:rgba(255,255,255,.03);color:var(--txt)}
+.btn.sec:hover{border-color:var(--cyan);text-decoration:none;transform:translateY(-2px)}
+.badges{display:flex;flex-wrap:wrap;gap:8px}
+.tag{font-size:12px;color:var(--dim);border:1px solid var(--line);border-radius:7px;padding:5px 10px;background:rgba(255,255,255,.02)}
+.hero-art{position:absolute;right:-60px;top:70px;width:390px;opacity:.5;pointer-events:none}
+section{padding:64px 0;border-bottom:1px solid var(--line)}
+h2{font-size:clamp(26px,3.4vw,38px);letter-spacing:-.025em;margin:0 0 12px;line-height:1.15}
+.sub{color:var(--dim);max-width:740px;margin:0 0 32px;font-size:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:linear-gradient(160deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:26px}
+.card .ico{font-size:26px;margin-bottom:10px}
+.card h3{margin:0 0 10px;font-size:19px;letter-spacing:-.01em}
+.card p{color:var(--dim);font-size:14.5px;margin:0}
+.card .n{display:block;margin-top:16px;font-size:12px;color:var(--cyan);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
+.metric{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 12px}
+.metric b{display:block;font-size:clamp(26px,3.4vw,38px);letter-spacing:-.04em;line-height:1.1}
+.metric span{font-size:12.5px;color:var(--dim);display:block;margin-top:8px}
+.gold{color:var(--gold)}.cyan{color:var(--cyan)}.green{color:var(--green)}.violet{color:var(--violet)}
+.flow{display:grid;grid-template-columns:1fr 34px 1fr 34px 1fr;gap:8px;align-items:center;margin:28px 0}
+.step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;text-align:center}
+.step .k{font-size:11px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.step .v{font-size:15px;font-weight:650;margin-top:6px}
+.arrow{text-align:center;color:var(--cyan);font-size:22px}
+pre{background:#080d18;border:1px solid var(--line);border-radius:12px;padding:18px;overflow:auto;font-size:13.5px;line-height:1.6}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:18px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
+th{color:var(--cyan);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.1em}
+td:last-child{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--gold)}
+.note{background:rgba(242,184,75,.07);border:1px solid rgba(242,184,75,.28);border-left:3px solid var(--gold);border-radius:10px;padding:20px 22px;color:#e9dcc0;font-size:14.5px}
+.note b{color:var(--gold)}
+ul.lim{padding-left:20px;color:var(--dim);font-size:15px}
+ul.lim li{margin:9px 0}
+footer{padding:46px 0 60px;color:var(--dim);font-size:14px}
+footer .links{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+@media(max-width:820px){.grid3,.metrics{grid-template-columns:1fr 1fr}.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}.hero-art{display:none}}
+@media(max-width:520px){.grid3,.metrics{grid-template-columns:1fr}.pad{padding:52px 0 44px}section{padding:48px 0}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap pad">
+    <span class="eyebrow">◆ Pure Python · Zero Dependencies · No GPU</span>
+    <h1>Long memory for AI<br>without the <span class="hl">memory.</span></h1>
+    <p class="lede">Gestalt-Net reads text three sentences at a time, deletes the scenes that are already closed, and keeps only a short tag plus a 22-byte "sleep-trigger". Five hundred pages later, that trigger still finds the killer.</p>
+    <div class="btns">
+      <a class="btn pri" href="https://github.com/dednain/gestalt-net">★ View on GitHub</a>
+      <a class="btn sec" href="#quickstart">▶ Run it in 6 seconds</a>
+      <a class="btn sec" href="#numbers">See the numbers ↓</a>
+    </div>
+    <div class="badges">
+      <span class="tag">Python 3.8+</span><span class="tag">MIT license</span>
+      <span class="tag">0 pip installs</span><span class="tag">27/27 checks pass</span>
+      <span class="tag">1,225 lines total</span><span class="tag">409-line core</span>
+    </div>
+  </div>
+  <svg class="hero-art" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f2b84b"/><stop offset="1" stop-color="#4fd6d2"/></linearGradient></defs>
+    <circle cx="200" cy="200" r="150" stroke="#1e2a42"/>
+    <circle cx="200" cy="200" r="108" stroke="#1e2a42"/>
+    <path d="M60 250 L160 190 L200 210 L300 120" stroke="url(#g1)" stroke-width="2"/>
+    <path d="M160 190 L230 290 L300 120" stroke="#9a8cff" stroke-width="1.5" opacity=".7"/>
+    <rect x="146" y="176" width="28" height="28" rx="6" fill="#f2b84b" opacity=".9"/>
+    <rect x="286" y="106" width="28" height="28" rx="6" fill="#4fd6d2" opacity=".9"/>
+    <rect x="216" y="276" width="28" height="28" rx="6" fill="#9a8cff" opacity=".9"/>
+    <circle cx="300" cy="120" r="42" stroke="#4fd6d2" opacity=".35"/>
+    <circle cx="300" cy="120" r="66" stroke="#4fd6d2" opacity=".18"/>
+  </svg>
+</header>
+
+<section id="numbers">
+  <div class="wrap">
+    <h2>The numbers, from an actual run</h2>
+    <p class="sub">Every figure below is written to <code>results.json</code> and re-derived from raw byte counts and the confusion matrix by <code>verify.py</code>. Nothing here is a render of a slide.</p>
+    <div class="metrics">
+      <div class="metric"><b class="gold">−86.5%</b><span>retained context memory<br>478,193 → 64,716 bytes</span></div>
+      <div class="metric"><b class="cyan">7.4×</b><span>context compression<br>on 200 unseen books</span></div>
+      <div class="metric"><b class="green">100%</b><span>answer accuracy<br>on 200 unseen books</span></div>
+      <div class="metric"><b class="violet">2.7×</b><span>AFTER vs BEFORE<br>learned weight mass</span></div>
+    </div>
+    <table>
+      <thead><tr><th>Measurement</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>F1 on the "evidence" class, before → after training</td><td>19.9% → 100%</td></tr>
+        <tr><td>Training set / decisions</td><td>1,000 stories / 7,000</td></tr>
+        <tr><td>Learned weights / epochs</td><td>198 / 14</td></tr>
+        <tr><td>Weight mass of the third sentence vs the first</td><td>25.8 / 9.5</td></tr>
+        <tr><td>Butler demo compression</td><td>1,956 → 295 bytes (−84.9%)</td></tr>
+        <tr><td>Accuracy without sleep-triggers / without Dossier</td><td>60% / 40%</td></tr>
+        <tr><td>Dossier precision, trained vs untrained</td><td>100% / 7.5%</td></tr>
+        <tr><td>Independent verification</td><td>27/27 checks, exit 0</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>One rule: wait for the third sentence</h2>
+    <p class="sub">The reader consumes non-overlapping triads τ<sub>k</sub> = (s<sub>3k−2</sub>, s<sub>3k−1</sub>, s<sub>3k</sub>). No decision about an object in CURRENT is emitted until AFTER has been read. That single gate is the whole architecture.</p>
+    <div class="flow">
+      <div class="step"><div class="k">BEFORE</div><div class="v">The butler took out a white handkerchief.</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="k">CURRENT</div><div class="v">He wiped his forehead with it.</div></div>
+      <div class="arrow">→</div>
+      <div class="step"><div class="k">AFTER · decision fires</div><div class="v">He calmly put it away and trimmed the hedge.</div></div>
+    </div>
+    <div class="note"><b>Why it matters.</b> A scene that closes is erasable. A scene ending in "he frightenedly hid the scar on his sleeve and ran" is not — the emotion is unresolved, so the scar goes to the Dossier. After training, the model's summed absolute weight on AFTER features is 25.8 versus 9.5 on BEFORE features: it learned to wait, without being told which sentence matters.</div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Three boxes of memory</h2>
+    <p class="sub">Replace retained prose with tags and triggers. No quantisation, no pruning, no attention kernel — just retrospective logic.</p>
+    <div class="grid3">
+      <div class="card"><div class="ico">📦</div><h3>Dossier</h3><p>Eternal short tags on characters: <em>[Butler] → crescent scar (p. 12)</em>. Permanent traits, strange reactions and suspicious contrasts survive; the long sentences do not.</p><span class="n">O(entities) · 100% precision</span></div>
+      <div class="card"><div class="ico">🗑️</div><h3>Trash</h3><p>Closed domestic actions are erased completely from working memory. Empty by definition, so it costs nothing. Around 90% of the scene volume ends here.</p><span class="n">0 bytes retained</span></div>
+      <div class="card"><div class="ico">📡</div><h3>Sleep-Triggers</h3><p>Written <em>before</em> deletion: <em>handkerchief = Butler (p. 12)</em>. Five hundred pages later a white handkerchief appears at a murder scene — an O(1) dictionary lookup fires and the owner is recalled.</p><span class="n">~22 bytes each · O(1) recall</span></div>
+    </div>
+    <div style="margin-top:24px"><pre><code>B_full  = Σ bytes(sentence)                          = 478,193 bytes
+B_ges   = Σ bytes(dossier tags) + Σ bytes(triggers) =  64,716 bytes
+saved   = 1 − B_ges / B_full                        =     86.5%
+ratio   = B_full / B_ges                            =      7.4×</code></pre></div>
+  </div>
+</section>
+
+<section id="quickstart">
+  <div class="wrap">
+    <h2>Runs on a toaster. Try it.</h2>
+    <p class="sub">No <code>pip install</code>, no virtualenv, no GPU, no API keys. Just Python 3.8 or newer.</p>
+    <pre><code>git clone https://github.com/dednain/gestalt-net.git
+cd gestalt-net
+
+python3 gestalt/verify.py        # 27/27 independent checks, ~3 s
+python3 gestalt/experiment.py    # full benchmark, ~6 s, rewrites results.json</code></pre>
+    <p style="margin-top:18px"><a href="https://github.com/dednain/gestalt-net#readme">Read the full README →</a></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Honest scope</h2>
+    <div class="note" style="margin-bottom:20px"><b>We did NOT measure VRAM.</b> The 86.5% is UTF-8 bytes of retained <em>text context</em> — not GPU memory, not KV-cache bytes, not a measured transformer speedup. Translating it into VRAM savings needs a real model integration, which has not been done.</div>
+    <ul class="lim">
+      <li><b>Not a transformer, not an LLM.</b> The triad judge is a linear bag-of-stems logistic scorer with 198 weights. In production an LLM would be the judge; the three boxes are the memory around it.</li>
+      <li><b>The corpus is synthetic</b> — templated Russian detective stories. The 100% accuracy is on those books, not on real literature. Real prose needs proper NER, coreference and irony handling.</li>
+      <li><b>The label is a dense surrogate</b> ("should this object be in the Dossier"), derived from whether the final answer needed it — not full RL from one end-of-book reward.</li>
+      <li><b>Stems, character names and cue words are hand-listed lexicons.</b> The decision is learned; the perception is not.</li>
+      <li><b>A surprising ablation:</b> an untrained network still answers 100% correctly because triggers insure against bad decisions — its Dossier precision is just 7.5%. Training buys compression and a clean Dossier, not raw correctness.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://github.com/dednain/gestalt-net">GitHub repository</a>
+      <a href="https://github.com/dednain/gestalt-net/releases/tag/v1.0.0">Release v1.0.0</a>
+      <a href="https://github.com/dednain/gestalt-net/blob/main/README.md">README</a>
+      <a href="https://github.com/dednain/gestalt-net/discussions">Discussions</a>
+      <a href="https://github.com/dednain/gestalt-net/issues">Issues</a>
+    </div>
+    <div>Gestalt-Net · MIT license · Built with 1,225 lines of standard-library Python and zero external packages.</div>
+    <div style="margin-top:8px;opacity:.7">Keywords: AI memory architecture · long context LLM · KV cache reduction · context compression · pure Python ML · agent memory · no GPU AI · 86% memory savings</div>
+  </div>
+</footer>
+
+</body>
+</html>

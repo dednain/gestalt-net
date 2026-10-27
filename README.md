@@ -5,6 +5,7 @@
 `Python 3.8+` · **zero dependencies** · **no GPU** · **no PyTorch** · **no vector database** · **409-line core**, 1,225 lines of Python total
 
 [![verify](https://img.shields.io/badge/verify-27%2F27-brightgreen)]() [![deps](https://img.shields.io/badge/dependencies-0-blue)]() [![license](https://img.shields.io/badge/license-MIT-green)]()
+[![site](https://img.shields.io/badge/live%20demo-gestalt--net-blue)](https://dednain.github.io/gestalt-net/)
 
 ---
 
@@ -13,6 +14,8 @@
 Long-context systems are hoarders. A transformer keeps every token in its KV cache; a RAG pipeline keeps every chunk in an index; a "memory" wrapper keeps every turn in a prompt buffer. All of them grow with the length of the text.
 
 Gestalt-Net starts from a different observation: **most sentences are domestic noise**. A butler takes out a handkerchief, wipes his forehead, puts it away — and nothing ever comes of it. But a scar is part of a body, and a frightened reaction is an unfinished story. A reader should be allowed to forget the first and remember the second, while leaving itself a tiny note about what it threw away.
+
+> 🌐 **Live site with the full math and diagrams:** https://dednain.github.io/gestalt-net/
 
 This repository is a deliberately small, fully reproducible implementation of that idea. It is **not** a language model. It is a memory controller — the bookkeeping layer you would put *around* a model.
 
@@ -154,9 +157,11 @@ print(net.answer_by_prop("платок"))      # Дворецкий
 
 ```
 README.md            this file
-REDDIT_POST.txt      launch kit: titles, flairs, tags, copy-paste post body
+REDDIT_POST.txt      Reddit launch kit: titles, flairs, tags, copy-paste body
+LAUNCH_KIT.md        full promotion plan: ranked titles, tags, hubs, schedule
 LICENSE              MIT
 results.json         recorded benchmark (all numbers above)
+docs/                public landing page (GitHub Pages), OG image, sitemap
 gestalt/
   __init__.py        package marker, re-exports the public API
   gestalt.py         the architecture: triad reader, three boxes, scorers
@@ -164,7 +169,7 @@ gestalt/
   verify.py          27 independent checks; exit code 0 iff all pass
 ```
 
-That's it. Four Python files, one JSON, three docs. Nothing else.
+That's it. Four Python files, one JSON, docs, and a static site — no external packages.
 
 ---
 

@@ -1,6 +1,7 @@
 ================================================================================
  GESTALT-NET — REDDIT LAUNCH KIT  (copy-paste ready)
  Built 27 Oct 2026. All numbers come from results.json in the repo.
+ Landing page: https://dednain.github.io/gestalt-net/  |  Full plan: LAUNCH_KIT.md
  Rule: loud headline, quiet claims. Do NOT claim measured VRAM savings.
 ================================================================================
 
@@ -10,8 +11,15 @@
 --------------------------------------------------------------------------------
 
 PRIMARY (recommended, [P] for r/MachineLearning):
-  [P] We cut retained long-context memory by 86.5% with a 409-line pure-Python
+  [P] We cut retained long-context memory 86.5% with a 409-line pure-Python
       core — 0 dependencies, 0 GPUs, 100% answer accuracy on our benchmark
+
+  WHY THIS TITLE: statement (not a question) -> +16% median upvotes; four
+  concrete numbers -> ~+15% CTR; 15-20 words -> long descriptive titles
+  outperform 6-8 word ones (median 2,570 vs 1,584). Sources:
+  https://upvote.net/blog/reddit-upvote-study
+  https://gist.github.com/NHagar/77c3f2e9df9c211d2abce7982f794135
+  Full ranked list of alternates: LAUNCH_KIT.md section 1.
 
 SPICIER but still defensible (r/LocalLLaMA):
   We deleted 90% of the text and still found the killer: a dependency-free

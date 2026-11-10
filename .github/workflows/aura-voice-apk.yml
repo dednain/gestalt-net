@@ -23,7 +23,7 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - uses: android-actions/setup-android@v3
+      # Hosted Ubuntu runners already include the Android SDK; avoid legacy `sdkmanager tools`.
       - name: Install dependencies
         run: npm install --no-audit --no-fund
       - name: Validate JavaScript

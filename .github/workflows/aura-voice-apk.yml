@@ -1,11 +1,6 @@
-name: AURA VOICE · Android APK
+name: Luna · Android APK (manual only)
 on:
   workflow_dispatch:
-  push:
-    branches: [feature/luna-voice-android]
-    paths:
-      - 'voice-app/**'
-      - '.github/workflows/aura-voice-apk.yml'
 permissions:
   contents: read
 jobs:

@@ -19,7 +19,7 @@ function signalingUrl() {
   if (saved) return saved;
   // The static Vercel frontend has no /signal route; configure your standalone WSS server in Settings.
   if (!nativeApp() && /\.vercel\.app$/i.test(location.hostname)) return '';
-  if (!nativeApp() && ['https:','http:'].includes(location.protocol)) return (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/signal';
+  if (!nativeApp() && ['https:','http:'].includes(location.protocol) && !location.hostname.endsWith('.vercel.app')) return (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/signal';
   return '';
 }
 function send(message) {
@@ -81,7 +81,7 @@ function leaveRoom(showMessage=true) {
   closeConnections(); stopMicrophone();
   state.room=null; state.selfId=null; state.iceServers=[]; state.joining=false;
   state.micWanted=false; state.deafened=false; state.hearWanted=true;
-  $('call').classList.add('hidden'); $('lobby').classList.remove('hidden');
+  $('call').classList.add('hidden'); $('lobby').classList.remove('hidden'); document.body.classList.remove('in-call');
   document.body.classList.remove('in-call');
   $('heroSubtitle').textContent='Иногда нужно просто услышать друг друга. Создай своё пространство — без лишних людей и лишних слов.';
   document.title='AURA — на одной частоте';
@@ -153,7 +153,7 @@ function onServerMessage(data) {
     for (const peer of data.peers) state.peers.set(peer.id, peer);
     $('activeRoom').textContent=state.room;
     $('connectionText').textContent='На связи';
-    $('lobby').classList.add('hidden'); $('call').classList.remove('hidden');
+    $('lobby').classList.add('hidden'); $('call').classList.remove('hidden'); document.body.classList.add('in-call');
     document.body.classList.add('in-call');
     $('heroSubtitle').textContent='Связь установлена. Позови своих людей.';
     document.title=state.room + ' · AURA';
@@ -231,7 +231,7 @@ $('deafenBtn').addEventListener('click',async()=>{state.deafened=!state.deafened
 $('volume').addEventListener('input',event=>{state.volume=Number(event.target.value);$('volumeValue').textContent=state.volume+'%';renderControls();});
 $('leaveBtn').addEventListener('click',()=>leaveRoom());
 $('copyBtn').addEventListener('click',async()=>{
-  const invite=nativeApp() ? 'Войди в AURA VOICE, код комнаты: '+state.room : 'Заходи в AURA VOICE: '+location.origin+location.pathname+'?room='+state.room;
+  const invite=nativeApp() ? 'Войди в Luna, код комнаты: '+state.room : 'Заходи в Luna: '+location.origin+location.pathname+'?room='+state.room;
   try {await navigator.clipboard.writeText(invite);toast('Приглашение скопировано');}
   catch {toast('Код комнаты: '+state.room);}
 });

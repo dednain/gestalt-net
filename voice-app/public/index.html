@@ -2,61 +2,98 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#080b16">
-  <meta name="description" content="AURA VOICE — голосовые комнаты в твоём стиле">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0e0c">
   <meta name="color-scheme" content="dark">
-  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="description" content="AURA — твоё место для разговоров. Голосовые комнаты для своих.">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
   <link rel="stylesheet" href="/style.css">
-  <title>AURA VOICE — твоя волна</title>
+  <title>AURA — на одной частоте</title>
 </head>
 <body>
-  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
-  <div class="app">
+  <div class="grain" aria-hidden="true"></div>
+  <div class="app-shell">
     <header class="topbar">
-      <div class="identity"><span class="brand-mark"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M7 28 18 8l6 12 4-7 6 15" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>AURA</b><small>VOICE</small></span></div>
-      <button class="icon-btn" id="settingsBtn" aria-label="Настройки сервера" title="Настройки"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/><path d="m19.4 15 .1.1 1.3 1-2.1 3.6-1.6-.6a8 8 0 0 1-2 1.2l-.3 1.7H9.2l-.3-1.7a8 8 0 0 1-2-1.2l-1.6.6-2.1-3.6 1.3-1a8 8 0 0 1 0-2.3l-1.3-1 2.1-3.6 1.6.6a8 8 0 0 1 2-1.2l.3-1.7h5.6l.3 1.7a8 8 0 0 1 2 1.2l1.6-.6 2.1 3.6-1.3 1a8 8 0 0 1 0 2.3Z"/></svg></button>
+      <a href="/" class="brand" aria-label="AURA — главная">
+        <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 42 42" fill="none"><path d="M5 27V15M12 33V9M19 28V14M26 36V6M33 29V13M40 25V17" stroke="currentColor" stroke-width="3.7" stroke-linecap="round"/></svg></span>
+        <span class="brand-wordmark">aura<span class="brand-period">.</span><small>VOICE CLUB</small></span>
+      </a>
+      <div class="header-actions">
+        <div class="header-version">YOUR SPACE / 001</div>
+        <button id="settingsBtn" class="settings-trigger" aria-label="Настройки подключения" title="Настройки подключения">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.86 2.86-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1.2 1.6V21h-4v-.08A1.7 1.7 0 0 0 8.6 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.86-2.86.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.6-1.2H3v-4h.08A1.7 1.7 0 0 0 4.6 8.6a1.7 1.7 0 0 0-.34-1.88l-.06-.06L7.06 3.8l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1.2-1.6V3h4v.08A1.7 1.7 0 0 0 15.4 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.86 2.86-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.6 1.2h.08v4H21A1.7 1.7 0 0 0 19.4 15Z" transform="translate(0 0) scale(.96) translate(.5 .5)"/></svg>
+        </button>
+      </div>
     </header>
+
     <main>
-      <div class="eyebrow"><span class="spark"></span> НОВОЕ ЗВУЧАНИЕ ОБЩЕНИЯ <span class="eyebrow-line"></span></div>
-      <section class="hero">
-        <div class="orbit orbit-outer"></div><div class="orbit orbit-inner"></div>
-        <div class="wave wave-1"></div><div class="wave wave-2"></div>
-        <div class="sphere"><div class="sphere-shine"></div><div class="pulse-bars" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
-        <div class="hero-shadow"></div>
+      <div class="home-intro" id="homeIntro">
+        <div class="eyebrow"><span class="eyebrow-dash"></span><span>ГОЛОСОВОЕ ПРОСТРАНСТВО</span><span class="eyebrow-number">№ 001</span></div>
+        <h1>Ближе,<br>чем <span class="underline-title">кажется<span class="title-dot">.</span></span></h1>
+        <p class="hero-copy" id="heroSubtitle">Иногда нужно просто услышать друг друга. Создай своё пространство — без лишних людей и лишних слов.</p>
+
+        <div class="sound-art" aria-hidden="true">
+          <div class="art-grid"></div>
+          <div class="art-caption art-caption-left">AUDIO / LIVE</div>
+          <div class="art-caption art-caption-right">44.1 KHZ · STEREO</div>
+          <div class="record-outer"><div class="record-rings"><div class="record-face"><div class="record-core">
+            <div class="record-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div></div></div></div>
+          <div class="art-footer"><span>FREQUENCY 001</span><span class="art-arrow">↗</span><span>MADE FOR REAL VOICES</span></div>
+        </div>
+      </div>
+
+      <section id="lobby" class="room-card">
+        <div class="card-heading">
+          <div><div class="micro-label">НАЧНИ ЗДЕСЬ</div><h2>Твоя комната<span class="title-dot">.</span></h2></div>
+          <span class="status-pill"><i></i> ГОТОВО К СВЯЗИ</span>
+        </div>
+        <label class="field-label" for="nickname">Как к тебе обращаться</label>
+        <div class="input-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c.5-4 3-6 7.5-6s7 2 7.5 6"/></svg><input id="nickname" maxlength="24" autocomplete="nickname" placeholder="Твой никнейм" value="Гость"></div>
+        <button id="createBtn" class="primary-btn"><span class="primary-glyph">✳</span><span>Создать комнату</span><span class="button-arrow">↗</span></button>
+        <div class="separator"><span></span><small>УЖЕ ЕСТЬ КОД?</small><span></span></div>
+        <label class="field-label" for="roomCode">Код приглашения</label>
+        <div class="join-row"><input id="roomCode" maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="A7B3KD" class="room-input"><button id="joinBtn" class="join-btn">Войти <span aria-hidden="true">↗</span></button></div>
+        <div class="card-footnote"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3 4 6v5c0 5.2 3 8.5 8 10 5-1.5 8-4.8 8-10V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg><span>Без аккаунта. Только ты и твои люди.</span></div>
       </section>
-      <div class="headline"><h1>Будь на <em>одной волне.</em></h1><p id="heroSubtitle">Твой голос. Твои люди. Никакого лишнего шума.</p></div>
-      <section id="lobby" class="panel">
-        <div class="section-top"><span class="section-kicker">ТВОЯ КОМНАТА</span><span class="quiet-pill"><span class="mini-dot"></span> Готов к общению</span></div>
-        <label for="nickname">Как тебя называть?</label>
-        <input id="nickname" maxlength="24" autocomplete="nickname" placeholder="Твой никнейм" value="Гость">
-        <label for="roomCode">Код комнаты</label>
-        <input id="roomCode" maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Например, A7B3KD" class="room-input">
-        <div class="button-stack"><button id="joinBtn" class="primary-btn"><span>Войти в комнату</span><span class="arrow">↗</span></button><button id="createBtn" class="secondary-btn">✦ Создать новую комнату</button></div>
-        <p class="tip">Поделись кодом с друзьями — и говорите без лишних регистраций.</p>
-      </section>
-      <section id="call" class="panel hidden" aria-live="polite">
-        <div class="room-head"><div><span class="section-kicker">ГОЛОСОВАЯ КОМНАТА</span><h2 id="activeRoom">------</h2></div><span id="connectionPill" class="quiet-pill"><span class="mini-dot"></span><span id="connectionText">Подключение</span></span></div>
-        <button id="copyBtn" class="copy-link">⧉ Копировать приглашение</button>
-        <div class="thin-divider"></div>
+
+      <section id="call" class="room-card room-card-live hidden" aria-live="polite">
+        <div class="room-head">
+          <div><div class="micro-label">СЕЙЧАС В ЭФИРЕ</div><h2 id="activeRoom">------</h2></div>
+          <div class="status-pill status-live"><i></i><span id="connectionText">Подключение</span></div>
+        </div>
+        <div class="listening-stage">
+          <div class="stage-ring stage-ring-1"></div><div class="stage-ring stage-ring-2"></div>
+          <div class="stage-core"><div class="stage-equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="stage-caption">YOU'RE IN THE ROOM</div>
+        </div>
+        <div class="room-tools"><button id="copyBtn" class="copy-link"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg> Скопировать приглашение <span aria-hidden="true">↗</span></button></div>
+        <div class="section-line"></div>
         <div class="members-heading"><span>УЧАСТНИКИ</span><span id="memberCount">1 / 6</span></div>
         <div id="members" class="members"></div>
-        <div class="thin-divider"></div>
-        <div class="controls-title">УПРАВЛЕНИЕ ГОЛОСОМ</div>
+        <div class="section-line"></div>
+        <div class="controls-title">УПРАВЛЕНИЕ ЗВУКОМ</div>
         <div class="controls">
-          <button id="micBtn" class="control" aria-pressed="false"><span class="control-icon" id="micIcon">🎙</span><span id="micLabel">Микрофон выкл.</span></button>
-          <button id="soundBtn" class="control active" aria-pressed="true"><span class="control-icon">♫</span><span id="soundLabel">Слушаю</span></button>
-          <button id="deafenBtn" class="control danger" aria-pressed="false"><span class="control-icon">◉</span><span id="deafenLabel">Полный мут</span></button>
+          <button id="micBtn" class="control" aria-pressed="false"><span class="control-icon" id="micIcon"><svg class="mic-art" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8"/><path class="mic-slash" d="M3 3 21 21"/></svg></span><span id="micLabel">Микрофон выкл.</span></button>
+          <button id="soundBtn" class="control active" aria-pressed="true"><span class="control-icon"><svg class="sound-art-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z"/><path d="M16.5 8a6 6 0 0 1 0 8M19 5a10 10 0 0 1 0 14"/><path class="sound-slash" d="M3 3 21 21"/></svg></span><span id="soundLabel">Слушаю</span></button>
+          <button id="deafenBtn" class="control" aria-pressed="false"><span class="control-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 14v-3a8 8 0 0 1 16 0v3"/><rect x="2.5" y="13" width="5" height="8" rx="2"/><rect x="16.5" y="13" width="5" height="8" rx="2"/><path d="M9 21h6"/></svg></span><span id="deafenLabel">Полный мут</span></button>
         </div>
-        <div class="volume-row"><span>Громкость участников</span><input type="range" min="0" max="100" value="80" id="volume" aria-label="Громкость участников"><span id="volumeValue">80%</span></div>
-        <button id="leaveBtn" class="leave-btn">Завершить разговор <span>↗</span></button>
+        <div class="volume-row"><span>Громкость</span><input type="range" min="0" max="100" value="80" id="volume" aria-label="Громкость собеседников"><output id="volumeValue" for="volume">80%</output></div>
+        <button id="leaveBtn" class="leave-btn">Выйти из комнаты <span aria-hidden="true">↗</span></button>
       </section>
     </main>
-    <footer><span><span class="foot-dot"></span> PRIVATE BY DESIGN</span><span>AURA VOICE · 01</span></footer>
+
+    <footer><span>© AURA VOICE</span><span class="footer-center">LESS NOISE. MORE HUMAN.</span><span>001 — 2026</span></footer>
   </div>
-  <dialog id="settingsDialog"><form method="dialog" class="settings"><div class="settings-top"><div><span class="section-kicker">НАСТРОЙКИ ПОДКЛЮЧЕНИЯ</span><h2>Твой сервер</h2></div><button value="cancel" class="close-btn" aria-label="Закрыть">×</button></div><p>В браузере используется адрес сайта. Для APK укажи WSS-адрес своего сервера, доступного в России без VPN.</p><label for="signalUrl">Сервер сигнализации</label><input id="signalUrl" type="url" placeholder="wss://voice.example.ru/signal" inputmode="url"><p class="dialog-hint">HTTPS и WSS обязательны для безопасной передачи голоса. Для сложных сетей серверу нужен TURN.</p><button value="save" class="primary-btn" id="saveSettings">Сохранить адрес <span>↗</span></button></form></dialog>
-  <div role="status" id="toast" class="toast" aria-live="polite"></div>
+  <dialog id="settingsDialog"><form method="dialog" class="settings">
+    <div class="settings-top"><div><div class="micro-label">НАСТРОЙКА СВЯЗИ</div><h2>Подключение<span class="title-dot">.</span></h2></div><button value="cancel" class="close-btn" aria-label="Закрыть настройки">×</button></div>
+    <p>Для APK и сайта на Vercel укажи адрес своего голосового сервера. Он должен быть доступен всем участникам без VPN.</p>
+    <label for="signalUrl">WebSocket-сервер (WSS)</label><input id="signalUrl" type="url" placeholder="wss://voice.example.ru/signal" inputmode="url" autocomplete="url">
+    <p class="dialog-hint">Для связи с мобильного телефона нужен HTTPS/WSS, а для сложных сетей — отдельный TURN-сервер.</p>
+    <button value="save" class="primary-btn" id="saveSettings">Сохранить адрес <span class="button-arrow">↗</span></button>
+  </form></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <script src="/app.js" defer></script>
 </body>
 </html>

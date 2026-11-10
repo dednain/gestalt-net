@@ -17,6 +17,8 @@ function nativeApp() { return !!(window.Capacitor && window.Capacitor.isNativePl
 function signalingUrl() {
   const saved = localStorage.getItem('auraVoiceSignaling');
   if (saved) return saved;
+  // The static Vercel frontend has no /signal route; configure your standalone WSS server in Settings.
+  if (!nativeApp() && /\.vercel\.app$/i.test(location.hostname)) return '';
   if (!nativeApp() && ['https:','http:'].includes(location.protocol)) return (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/signal';
   return '';
 }
@@ -53,8 +55,8 @@ function renderControls() {
   $('deafenBtn').setAttribute('aria-pressed', String(state.deafened));
   $('micBtn').disabled = state.busyMic || state.deafened;
   $('soundBtn').disabled = state.deafened;
-  $('micLabel').textContent = mic ? 'Микрофон вкл.' : 'Микрофон выкл.';
-  $('micIcon').textContent = mic ? '🎙' : '⦸';
+  $('micLabel').textContent = mic ? 'Говорю' : 'Микрофон выкл.';
+  // Inline SVG is controlled by CSS so icons stay crisp on Android.
   $('soundLabel').textContent = sound ? 'Слушаю' : 'Не слышу';
   $('deafenLabel').textContent = state.deafened ? 'Снять мут' : 'Полный мут';
   document.body.classList.toggle('mic-on', !!state.microphone);
@@ -80,8 +82,9 @@ function leaveRoom(showMessage=true) {
   state.room=null; state.selfId=null; state.iceServers=[]; state.joining=false;
   state.micWanted=false; state.deafened=false; state.hearWanted=true;
   $('call').classList.add('hidden'); $('lobby').classList.remove('hidden');
-  $('heroSubtitle').textContent='Твой голос. Твои люди. Никакого лишнего шума.';
-  document.title='AURA VOICE — твоя волна';
+  document.body.classList.remove('in-call');
+  $('heroSubtitle').textContent='Иногда нужно просто услышать друг друга. Создай своё пространство — без лишних людей и лишних слов.';
+  document.title='AURA — на одной частоте';
   renderControls();
   $('joinBtn').disabled=false; $('createBtn').disabled=false;
   if (wasActive && showMessage) toast('Ты вышел из комнаты');
@@ -151,8 +154,9 @@ function onServerMessage(data) {
     $('activeRoom').textContent=state.room;
     $('connectionText').textContent='На связи';
     $('lobby').classList.add('hidden'); $('call').classList.remove('hidden');
+    document.body.classList.add('in-call');
     $('heroSubtitle').textContent='Связь установлена. Позови своих людей.';
-    document.title=state.room + ' · AURA VOICE';
+    document.title=state.room + ' · AURA';
     renderControls();
     for (const peer of data.peers) makePeer(peer.id);
     send({type:'status', mic:false, deafened:state.deafened});

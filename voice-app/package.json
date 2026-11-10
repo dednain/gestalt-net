@@ -1,15 +1,23 @@
 {
-  "name":"aura-voice",
-  "version":"0.1.0",
-  "private":true,
-  "description":"Beautiful self-hosted WebRTC voice rooms for mobile browser and Android",
-  "scripts":{
-    "start":"node server.js",
-    "check":"node --check server.js && node --check public/app.js && node --check public/sw.js",
-    "android:init":"npx cap add android && node scripts/patch-android.mjs && npx cap sync android",
-    "android:sync":"npx cap sync android"
+  "name": "luna-voice",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Luna — self-hosted WebRTC voice rooms and Vercel-ready static website",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check public/app.js && node --check public/sw.js",
+    "android:init": "npx cap add android && node scripts/patch-android.mjs && npx cap sync android",
+    "android:sync": "npx cap sync android"
   },
-  "engines":{"node":">=22"},
-  "dependencies":{"ws":"^8.18.3","@capacitor/core":"^8.0.0","@capacitor/android":"^8.0.0"},
-  "devDependencies":{"@capacitor/cli":"^8.0.0"}
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "ws": "^8.18.3",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/android": "^8.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.0.0"
+  }
 }

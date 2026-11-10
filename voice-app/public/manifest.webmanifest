@@ -1,1 +1,19 @@
-{"name":"Luna Voice","short_name":"Luna","description":"Luna — пространство для настоящих разговоров","start_url":"/","scope":"/","display":"standalone","background_color":"#0b0e0c","theme_color":"#0b0e0c","lang":"ru","icons":[{"src":"/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
+{
+  "name": "Luna Voice",
+  "short_name": "Luna",
+  "description": "Luna — голосовые комнаты для своих",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b0d15",
+  "theme_color": "#0b0d15",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,9 +1,8 @@
 {
-  "version": 2,
-  "buildCommand": "npm run check",
-  "outputDirectory": "public",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "cleanUrls": false,
+  "outputDirectory": "public",
+  "buildCommand": null,
   "headers": [
     {
       "source": "/(.*)",

@@ -15,12 +15,20 @@ function toast(message) {
 }
 function nativeApp() { return !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()); }
 function signalingUrl() {
-  const saved = localStorage.getItem('auraVoiceSignaling');
+  const saved = localStorage.getItem('lunaVoiceSignaling') || localStorage.getItem('auraVoiceSignaling');
   if (saved) return saved;
+  if (typeof window.LUNA_SIGNAL_URL === 'string' && /^wss:\/\//i.test(window.LUNA_SIGNAL_URL)) return window.LUNA_SIGNAL_URL;
   // The static Vercel frontend has no /signal route; configure your standalone WSS server in Settings.
   if (!nativeApp() && /\.vercel\.app$/i.test(location.hostname)) return '';
   if (!nativeApp() && ['https:','http:'].includes(location.protocol) && !location.hostname.endsWith('.vercel.app')) return (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/signal';
   return '';
+}
+function refreshServerStatus() {
+  const active=!!signalingUrl();
+  const status=$('serverStatus'), pill=$('serverPill'), note=$('serverNotice');
+  if (status) status.textContent=active ? 'СЕРВЕР ЗАДАН' : 'НУЖЕН СЕРВЕР';
+  if (pill) pill.classList.toggle('is-unconfigured',!active);
+  if (note) note.hidden=active;
 }
 function send(message) {
   if (state.socket && state.socket.readyState === WebSocket.OPEN) state.socket.send(JSON.stringify(message));
@@ -84,7 +92,7 @@ function leaveRoom(showMessage=true) {
   $('call').classList.add('hidden'); $('lobby').classList.remove('hidden'); document.body.classList.remove('in-call');
   document.body.classList.remove('in-call');
   $('heroSubtitle').textContent='Иногда нужно просто услышать друг друга. Создай своё пространство — без лишних людей и лишних слов.';
-  document.title='AURA — на одной частоте';
+  document.title='LUNA — на одной частоте';
   renderControls();
   $('joinBtn').disabled=false; $('createBtn').disabled=false;
   if (wasActive && showMessage) toast('Ты вышел из комнаты');
@@ -156,7 +164,7 @@ function onServerMessage(data) {
     $('lobby').classList.add('hidden'); $('call').classList.remove('hidden'); document.body.classList.add('in-call');
     document.body.classList.add('in-call');
     $('heroSubtitle').textContent='Связь установлена. Позови своих людей.';
-    document.title=state.room + ' · AURA';
+    document.title=state.room + ' · LUNA';
     renderControls();
     for (const peer of data.peers) makePeer(peer.id);
     send({type:'status', mic:false, deafened:state.deafened});
@@ -185,7 +193,7 @@ function startRoom(code) {
   if (!/^wss:\/\//.test(url) && !/^ws:\/\/(localhost|127\.0\.0\.1)(:\d+)?\//.test(url)) return toast('Для телефона нужен безопасный адрес wss://');
   state.joining=true; $('joinBtn').disabled=true; $('createBtn').disabled=true;
   const nick = $('nickname').value.trim().slice(0,24) || 'Гость';
-  localStorage.setItem('auraVoiceNick', nick);
+  localStorage.setItem('lunaVoiceNick', nick);
   try {
     const socket=new WebSocket(url); state.socket=socket;
     socket.onopen=()=>send({type:'join',room:code,name:nick});
@@ -235,16 +243,18 @@ $('copyBtn').addEventListener('click',async()=>{
   try {await navigator.clipboard.writeText(invite);toast('Приглашение скопировано');}
   catch {toast('Код комнаты: '+state.room);}
 });
-$('settingsBtn').addEventListener('click',()=>{$('signalUrl').value=localStorage.getItem('auraVoiceSignaling')||'';$('settingsDialog').showModal();});
+$('serverSetupBtn').addEventListener('click',()=>{$('settingsBtn').click();});
+$('settingsBtn').addEventListener('click',()=>{$('signalUrl').value=localStorage.getItem('lunaVoiceSignaling')||localStorage.getItem('auraVoiceSignaling')||'';$('settingsDialog').showModal();});
 $('settingsDialog').addEventListener('close',()=>{
   if ($('settingsDialog').returnValue!=='save') return;
   const value=$('signalUrl').value.trim();
   if (value && !/^wss:\/\/[^/]+(?:\/.*)?$/i.test(value)) return toast('Адрес должен начинаться с wss://');
-  localStorage.setItem('auraVoiceSignaling',value);toast('Адрес сохранён. Переподключись к комнате для применения.');
+  localStorage.setItem('lunaVoiceSignaling',value);refreshServerStatus();toast('Адрес сохранён. Переподключись к комнате для применения.');
 });
-$('nickname').value=localStorage.getItem('auraVoiceNick')||'Гость';
+$('nickname').value=localStorage.getItem('lunaVoiceNick')||localStorage.getItem('auraVoiceNick')||'Гость';
 const inviteCode=new URLSearchParams(location.search).get('room');
 if (inviteCode && /^[A-Z0-9]{6}$/i.test(inviteCode)) $('roomCode').value=inviteCode.toUpperCase();
 window.addEventListener('beforeunload',()=>{stopMicrophone();if(state.socket)state.socket.close();});
 renderControls();
+refreshServerStatus();
 if ('serviceWorker' in navigator && location.protocol==='https:' && !nativeApp()) navigator.serviceWorker.register('/sw.js').catch(console.warn);

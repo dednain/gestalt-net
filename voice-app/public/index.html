@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0b0e0c">
+  <meta name="theme-color" content="#0b0d15">
   <meta name="color-scheme" content="dark">
   <meta name="description" content="LUNA — твоё место для разговоров. Голосовые комнаты для своих.">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
@@ -16,11 +16,11 @@
   <div class="app-shell">
     <header class="topbar">
       <a href="/" class="brand" aria-label="LUNA — главная">
-        <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 42 42" fill="none"><path d="M5 27V15M12 33V9M19 28V14M26 36V6M33 29V13M40 25V17" stroke="currentColor" stroke-width="3.7" stroke-linecap="round"/></svg></span>
+        <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 42 42" fill="none"><path d="M28.8 4.8a17.2 17.2 0 1 0 8.4 29.4c-13.2 1.8-23.8-9.6-21.4-22.7a17.1 17.1 0 0 1 13-6.7Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M33 8v5M30.5 10.5h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
         <span class="brand-wordmark">luna<span class="brand-period">.</span><small>VOICE CLUB</small></span>
       </a>
       <div class="header-actions">
-        <div class="header-version">YOUR SPACE / 001</div>
+        <div class="header-version">LUNA / EST. 2026</div>
         <button id="settingsBtn" class="settings-trigger" aria-label="Настройки подключения" title="Настройки подключения">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.86 2.86-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1.2 1.6V21h-4v-.08A1.7 1.7 0 0 0 8.6 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.86-2.86.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.6-1.2H3v-4h.08A1.7 1.7 0 0 0 4.6 8.6a1.7 1.7 0 0 0-.34-1.88l-.06-.06L7.06 3.8l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1.2-1.6V3h4v.08A1.7 1.7 0 0 0 15.4 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.86 2.86-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.6 1.2h.08v4H21A1.7 1.7 0 0 0 19.4 15Z" transform="translate(0 0) scale(.96) translate(.5 .5)"/></svg>
         </button>
@@ -36,19 +36,20 @@
         <div class="sound-art" aria-hidden="true">
           <div class="art-grid"></div>
           <div class="art-caption art-caption-left">AUDIO / LIVE</div>
-          <div class="art-caption art-caption-right">44.1 KHZ · STEREO</div>
+          <div class="art-caption art-caption-right">PRIVATE / AUDIO</div>
           <div class="record-outer"><div class="record-rings"><div class="record-face"><div class="record-core">
             <div class="record-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
           </div></div></div></div>
-          <div class="art-footer"><span>FREQUENCY 001</span><span class="art-arrow">↗</span><span>MADE FOR REAL VOICES</span></div>
+          <div class="art-footer"><span>LUNA · 001</span><span class="art-arrow">↗</span><span>SOUND IS CLOSER</span></div>
         </div>
       </div>
 
       <section id="lobby" class="room-card">
         <div class="card-heading">
           <div><div class="micro-label">НАЧНИ ЗДЕСЬ</div><h2>Твоя комната<span class="title-dot">.</span></h2></div>
-          <span class="status-pill"><i></i> ГОТОВО К СВЯЗИ</span>
+          <span class="status-pill" id="serverPill"><i></i> <span id="serverStatus">ПРОВЕРКА СВЯЗИ</span></span>
         </div>
+        <div class="server-notice" id="serverNotice" hidden><span class="server-notice-mark">◉</span><div><b>Сервер не подключён</b><p>Для звонков нужен адрес голосового сервера.</p></div><button id="serverSetupBtn" type="button">Настроить ↗</button></div>
         <label class="field-label" for="nickname">Как к тебе обращаться</label>
         <div class="input-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c.5-4 3-6 7.5-6s7 2 7.5 6"/></svg><input id="nickname" maxlength="24" autocomplete="nickname" placeholder="Твой никнейм" value="Гость"></div>
         <button id="createBtn" class="primary-btn"><span class="primary-glyph">✳</span><span>Создать комнату</span><span class="button-arrow">↗</span></button>
@@ -84,7 +85,7 @@
       </section>
     </main>
 
-    <footer><span>© LUNA VOICE</span><span class="footer-center">LESS NOISE. MORE HUMAN.</span><span>001 — 2026</span></footer>
+    <footer><span>© LUNA VOICE</span><span class="footer-center">CLOSER THAN IT SEEMS</span><span>001 — 2026</span></footer>
   </div>
   <dialog id="settingsDialog"><form method="dialog" class="settings">
     <div class="settings-top"><div><div class="micro-label">НАСТРОЙКА СВЯЗИ</div><h2>Подключение<span class="title-dot">.</span></h2></div><button value="cancel" class="close-btn" aria-label="Закрыть настройки">×</button></div>
@@ -94,6 +95,7 @@
     <button value="save" class="primary-btn" id="saveSettings">Сохранить адрес <span class="button-arrow">↗</span></button>
   </form></dialog>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/config.js" defer></script>
   <script src="/app.js" defer></script>
 </body>
 </html>
